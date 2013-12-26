@@ -95,6 +95,14 @@ img {
   max-width:100%;
 }
 
+img.th {
+  max-width: 98%;
+  padding: 1%;
+  background-color: #fff;
+  box-shadow: 0 0 7px rgba(0,0,0,0.1), 0 0 1px rgba(0,0,0,0.3);
+  border-radius: 3px;
+}
+
 header {
   width:270px;
   float:left;
