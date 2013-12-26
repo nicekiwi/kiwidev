@@ -158,17 +158,17 @@ You should get an output like:
 	Last-Modified: Thu, 26 Dec 2013 02:29:38 GMT
 	Connection: keep-alive
 	
-Service Control:
+## Service Control:
 
 At this point we start configuring everything therefore we need a simple way to start, stop and restart all the services. 
 
-	$ curl https://gist.github.com/nicekiwi/8129472/raw/bash_aliases -o /tmp/.bash_aliases
+	$ curl https://gist.github.com/nicekiwi/8131625/raw/bash_aliases -o /tmp/.bash_aliases
 	$ cat /tmp/.bash_aliases >> ~/.bash_aliases
 	$ echo "source ~/.bash_aliases" >> ~/.bash_profile
 	
-Now you can use short aliases instead of typing in launchctl arguments and plist paths.
+Now you can use short aliases instead of typing in launchctl arguments and plist paths. (You may need to close and re-open your terminal app for these to take effect).
 
-###### Nginx
+#### Nginx
 
 You can start, stop and restart Nginx with:
 
@@ -180,7 +180,7 @@ Check the Nginx `.conf` file.
 	
 	$ sudo nginx -t
 	
-###### PHP-FPM
+#### PHP-FPM
 
 Start, stop and restart PHP-FPM:
 
@@ -192,10 +192,62 @@ Check the PHP-FPM `.conf` file.
 	
 	$ sudo php-fpm -t
 	
-###### MariaDB
+#### MariaDB
 
 	$ mysql.start
 	$ mysql.stop
 	$ mysql.restart
 
+## Configuration
+
 Now with all that sortred out we can setup our local server.
+
+Lets create some folders for our logs and config files.
+
+	$ mkdir -p /usr/local/etc/nginx/logs
+	$ mkdir -p /usr/local/etc/nginx/blocks
+	$ mkdir -p /usr/local/etc/nginx/conf.d
+	$ mkdir -p /usr/local/etc/nginx/ssl
+	$ mkdir -p /var/www
+	
+The `logs` directory will store the nginx and server block log files, the `ssl` directory will store our SSL certificates and the `conf.d` directory stores our PHP-FPM config.
+
+The `blocks` directory will store our ServerBlock (VirtualHost) configs and `/var/www` will store our web projects.
+
+Remove the current `default nginx.conf` (which is also available as `/usr/local/etc/nginx/nginx.conf.default` in case you want to take a look) and download my custom one via `curl` from GitHub:
+
+	$ rm /usr/local/etc/nginx/nginx.conf
+	$ curl https://gist.github.com/nicekiwi/8131625/raw/nginx.conf -o /usr/local/etc/nginx/nginx.conf
+	
+Now we download my custom PHP-FPM configuration to make setting up Server blocks easier later on:
+
+	$ curl https://gist.github.com/nicekiwi/8131625/raw/php-fpm.conf -o /usr/local/etc/nginx/conf.d/php-fpm.conf
+
+## Server Blocks (Virtual Hosts)
+
+At this point you can really setup Server Blocks *(Or Virtual Hosts as you might call them from using Apache)* any way you like. However I've noticed a lot of people like to copy the way Debians build of apache does things with the `sites-available` and `sites-enabled` folders etc.
+
+The issue I have with that is: nginx is not apache and messing around with symlinks is annoying.
+
+Therefore I simply opt to tell Nginx that any server block configs with the file exstention of `.enabled` should be used. You can make this any exstention you like of course. Then I simply rename the file if I wish to disable it.
+
+Lets download my custom default server block files:
+
+	$ curl https://gist.github.com/nicekiwi/8131625/raw/default.enabled -o /usr/local/etc/nginx/blocks/default.enabled
+	$ curl https://gist.github.com/nicekiwi/8131625/raw/default-ssl.enabled -o /usr/local/etc/nginx/blocks/default-ssl.enabled
+	
+Now lets pull in some content for our default directory:
+
+	$ curl https://gist.github.com/nicekiwi/8131625/raw/index.html -o /var/www/index.html
+	
+Good, now lets aenerate 4096bit RSA keys and the self-sign the certificates in one command:
+
+	$ openssl req -new -newkey rsa:4096 -days 365 -nodes -x509 -subj "/C=US/ST=State/L=Town/O=Office/CN=localhost" -keyout /usr/local/etc/nginx/ssl/localhost.key -out /usr/local/etc/nginx/ssl/localhost.crt
+	
+Cool, lets check our config files are correct:
+
+	$ sudo nginx -t
+	
+Now we are done, all that remains is to restart Nginx and check out our sweet new local server!
+
+	$ nginx.restart
