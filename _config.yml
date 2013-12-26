@@ -1,0 +1,4 @@
+name: Kiwidev Websie
+markdown: redcarpet
+pygments: true
+baseurl: /nicekiwi.github.io
