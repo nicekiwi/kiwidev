@@ -1,8 +1,8 @@
 ---
-layout: post
+layout: project
 title:  "JD Smit Productions"
 date:   2013-12-26 19:44:00
-category: project
+category: projects
 ---
 
 Yay Jono!

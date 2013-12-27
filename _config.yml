@@ -1,3 +1,4 @@
 name: Kiwidev Websie
-markdown: redcarpet
+markdown: kramdown
 pygments: true
+permalink: /:categories/:title/
