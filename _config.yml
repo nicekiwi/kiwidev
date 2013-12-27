@@ -1,4 +1,5 @@
-name: Kiwidev Websie
+name: Kiwidev
+url: http://www.kiwidev.co.nz
 markdown: kramdown
 pygments: true
 permalink: /:categories/:title/
