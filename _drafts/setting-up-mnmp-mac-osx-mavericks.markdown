@@ -1,7 +1,6 @@
 ---
 layout: post
 title:  "Setting up MNMP on Mac OSX Mavericks"
-date:   2013-12-26 18:00:23
 categories: blog
 ---
 
