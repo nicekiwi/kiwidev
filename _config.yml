@@ -3,8 +3,3 @@ url: http://www.kiwidev.co.nz
 markdown: kramdown
 pygments: true
 permalink: /:categories/:title/
-
-analytics :
-  provider : google 
-  google : 
-      tracking_id : 'UA-39878123-1'
