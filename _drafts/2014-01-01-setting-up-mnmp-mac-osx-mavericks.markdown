@@ -1,14 +1,15 @@
 ---
 layout: post
 title:  "Setting up MNMP on Mac OSX Mavericks"
+date:   2014-01-01 00:00:00
 categories: blog
 ---
 
-Essentially I got frustrated that few tutorials did all I wanted and I needed a reminder for myself on howto make it all work togeather.
+<i class="fa fa-quote-left"></i> Essentially I got frustrated that few tutorials did all I wanted and I needed a reminder for myself on howto make it all work togeather. <i class="fa fa-quote-right"></i>
 
-Thus we will be setting up Homebrew, PHP-FPM, 
+Thus we will be setting up Homebrew, PHP-FPM, Nginx and MariaDB.
 
-Starting requirements:
+####Starting requirements
 
 - Xcode ([Download from the Mac App Store](https://itunes.apple.com/de/app/xcode/id497799835))
 - Xquarz
